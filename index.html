@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>San Valentín 💖</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+    }
+
+    #message {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #ff4d6d;
+      min-height: 22px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 140px;
+    }
+
+    button {
+      border: none;
+      border-radius: 30px;
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+      z-index: 10;
+    }
+
+    #noBtn {
+      background-color: #ccc;
+      top: 70px;
+      z-index: 1;
+    }
+
+    .invitation {
+      display: none;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    /* 💕 Corazones */
+    .heart {
+      position: fixed;
+      color: #ff4d6d;
+      font-size: 24px;
+      animation: float 6s linear infinite;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Solci 💖<br>¿querés ser mi San Valentín?</h1>
+
+  <div id="message"></div>
+
+  <div class="buttons">
+    <button id="yesBtn">Sí 💘</button>
+    <button id="noBtn">No 🙈</button>
+  </div>
+
+  <div class="invitation" id="invitation">
+    <h2>💌 Invitación 💌</h2>
+    <p>Cita el <strong>14 de febrero</strong> a las <strong>20:30 hs</strong></p>
+    <p>Ponete linda ✨</p>
+    <p><strong>Te amo Solci ❤️</strong></p>
+  </div>
+</div>
+
+<!-- Sonidos -->
+<audio id="noSound">
+  <source src="data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAAWGluZwAAAA8AAAACAAACcQCA" type="audio/mp3">
+</audio>
+
+<audio id="loveMusic" loop>
+  <source src="data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAAWGluZwAAAA8AAAACAAACcQCA" type="audio/mp3">
+</audio>
+
+<script>
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const invitation = document.getElementById("invitation");
+  const message = document.getElementById("message");
+  const noSound = document.getElementById("noSound");
+  const loveMusic = document.getElementById("loveMusic");
+
+  const messages = [
+    "Dale Solci 😏",
+    "Yo sé que querés 💘",
+    "No te hagas la difícil 😌",
+    "Ya está ganado esto 😎",
+    "Decí que sí 💖"
+  ];
+
+  let yesSize = 1;
+  let clickCount = 0;
+  let heartsInterval;
+
+  noBtn.addEventListener("click", () => {
+    noSound.currentTime = 0;
+    noSound.play();
+
+    yesSize += 0.4;
+    yesBtn.style.transform = `translateX(-50%) scale(${yesSize})`;
+
+    message.textContent = messages[clickCount % messages.length];
+    clickCount++;
+  });
+
+  yesBtn.addEventListener("click", () => {
+    document.querySelector("h1").style.display = "none";
+    document.querySelector(".buttons").style.display = "none";
+    message.style.display = "none";
+    invitation.style.display = "block";
+
+    loveMusic.play();
+    startHearts();
+  });
+
+  function startHearts() {
+    heartsInterval = setInterval(() => {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (20 + Math.random() * 20) + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }, 300);
+  }
+</script>
+
+</body>
+</html>
